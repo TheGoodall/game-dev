@@ -1,9 +1,7 @@
 import pygame
 
 
-def events():
-    running = True
+def events(game_instance):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
-    return running
+            game_instance.running = False
