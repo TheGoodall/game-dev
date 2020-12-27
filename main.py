@@ -2,10 +2,7 @@
 # Import Modules
 import pygame
 
-# Import game components
-import DontWaitVaccinate.events as events
-import DontWaitVaccinate.loop as loop
-import DontWaitVaccinate.render as render
+# Import game component
 import DontWaitVaccinate.game as game
 
 # Initialise Pygame and displays
@@ -29,13 +26,10 @@ while game_instance.running:
     clock.tick(FRAMERATE)
 
     # Process events
-    events.events(game_instance)
-
-    # Run main game loop
-    loop.loop(game_instance)
+    game_instance.loop()
 
     # Render Game to surface
-    render.render(surface, game_instance)
+    game_instance.render(surface)
 
     # Scale surface and render to screen
     pygame.transform.scale(

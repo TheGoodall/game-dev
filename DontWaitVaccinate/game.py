@@ -1,4 +1,5 @@
 from enum import Enum
+import pygame
 
 
 class game():
@@ -14,6 +15,17 @@ class game():
 
     def start(self, difficulty):
         self.game_state = game_state(difficulty)
+
+    def render(self, surface):
+        pass
+
+    def loop(self):
+        self.events()
+
+    def events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
 
 
 class game_state():
