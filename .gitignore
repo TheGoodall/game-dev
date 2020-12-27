@@ -1,1 +1,4 @@
 env/
+Session.vim
+*.swp
+DontWaitVaccinate/__pycache__/
