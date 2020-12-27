@@ -13,11 +13,20 @@ pygame.init()
 screen = pygame.display.set_mode((480, 320), pygame.RESIZABLE)
 surface = pygame.Surface((1280, 720))
 
+# Initialise game constants
+FRAMERATE = 60
+
+# Initialise clock
+clock = pygame.time.Clock()
+
 # Initialise Game
 game_instance = game.game()
 
 # Main Loop
 while game_instance.running:
+
+    # Tick clock at 60fps
+    clock.tick(FRAMERATE)
 
     # Process events
     events.events(game_instance)
