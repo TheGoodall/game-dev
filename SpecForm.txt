@@ -1,0 +1,40 @@
+Game design matching the ‘Covid-19 Fighter in the UK’ theme (5%)
+
+	Justification of the choice of game type:
+
+	Game story:
+
+Core development and implementation (30%)
+
+	Game scene (visual representation [2D, 2.5D or 3D], internal data structure):
+
+	Game flow and how it is designed (e.g., navigation, screen scrolling, levels):
+	
+	Game interaction (e.g., action detection and response generation):
+	
+	Game object (e.g., use of sprite, 3D objects, animation, multimedia):
+
+Game mechanics development and implementation (30%)
+Machinations diagram is required for this item on top of the description.
+
+	Main game rules / logics to control game progression, difficulty and end game conditions:
+
+	Control of game object abilities:
+
+Good use of game engine (12%)
+
+	Justification of the choice of game engine (pyGame, Unity) in terms of suitability of matching the theme and the expected target audience (game player):
+	
+	Types of user input supported (keyboard, mouse, joystick, etc.):
+	
+	Types of game object interaction supported (e.g., event triggering, collision detection):
+	
+	Other game engine features used (e.g., asset, incorporation of external libraries):
+
+Demonstrate creativity (15%)
+
+	Effective use of multimedia content:
+	
+	Advanced interaction implemented (e.g., game physics, object tracking, steering behaviour):
+
+
