@@ -6,4 +6,8 @@ class game():
 class game_state():
     difficulty_options = {"easy":{}, "medium":{}, "hard":{}}
     def __init__(self, difficulty):
-        pass
+        self.player = Player(self.difficulty_options[difficulty]["player_health"])
+
+class Player():
+    def __init__(self, health):
+        self.health = health
