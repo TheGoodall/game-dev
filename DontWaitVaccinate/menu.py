@@ -1,4 +1,4 @@
-from typing import Any, Callable
+from typing import Any, Callable, Tuple
 
 import pygame
 
@@ -22,19 +22,12 @@ class menu():
                         break
 
 
-class home_screen(menu):
-    """ Contains the implementation of menu specific to the main menu """
-
-    def __init__(self, game_instance) -> None:
-        self.game_instance = game_instance
-        self.buttons = []
-
-
 class Button():
     """ contains implementation of buttons """
 
-    def __init__(self, x: int, y: int, xsize: int, ysize: int, on_click: Callable) -> None:
+    def __init__(self, x: int, y: int, xsize: int, ysize: int, on_click: Callable, colour: Tuple[int, int, int]) -> None:
         self.rect = pygame.Rect(x, y, xsize, ysize)
+        self.colour = colour
         self.on_click = on_click
 
     def trigger(self) -> Any:
@@ -45,3 +38,17 @@ class Button():
             return True
         else:
             return False
+
+    def render(self, surface):
+        pygame.draw.rect(surface, self.colour, self.rect)
+
+
+class home_screen(menu):
+    """ Contains the implementation of menu specific to the main menu """
+
+    def __init__(self, game_instance) -> None:
+        self.game_instance = game_instance
+        self.buttons = [
+            Button(int(1280/2-60/2), int(720/2-20/2),
+                   60, 20, self.game_instance.start_game, (0, 150, 0))
+        ]
