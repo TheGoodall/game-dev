@@ -15,23 +15,23 @@ class game():
         medium = {},
         hard = {}
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.running = True
         self.game_state = False
         self.paused = False
         self.menu = home_screen(self)
 
-    def start_game(self, difficulty):
+    def start_game(self, difficulty) -> None:
         self.game_state = game_state(difficulty)
 
-    def render(self, surface):
+    def render(self, surface) -> None:
         if self.menu:
             self.menu.render(surface)
 
-    def loop(self):
+    def loop(self) -> None:
         self.events()
 
-    def events(self):
+    def events(self) -> None:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
