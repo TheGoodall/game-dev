@@ -5,13 +5,15 @@ import pygame
 # Import game component
 import DontWaitVaccinate.game as game
 
-# Initialise Pygame and displays
-pygame.init()
-screen = pygame.display.set_mode((480, 320), pygame.RESIZABLE)
-surface = pygame.Surface((1280, 720))
-
 # Initialise game constants
 FRAMERATE = 60
+RENDER_RES = (1280,720)
+DEFAULT_SCREEN_RES = (1280,720)
+
+# Initialise Pygame and displays
+pygame.init()
+screen = pygame.display.set_mode(DEFAULT_SCREEN_RES, pygame.RESIZABLE)
+surface = pygame.Surface(RENDER_RES)
 
 # Initialise clock
 clock = pygame.time.Clock()
