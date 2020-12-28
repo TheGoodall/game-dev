@@ -1,9 +1,13 @@
 from enum import Enum
 import pygame
 
+from DontWaitVaccinate import game_state
 
 class game():
-    class difficulty_options(Enum):
+    """ Contains the state of the game as a whole, including menu screens. """
+
+    # Possible difficulty options
+    class difficulty_option(Enum):
         easy = {},
         medium = {},
         hard = {}
@@ -26,13 +30,3 @@ class game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
-
-
-class game_state():
-    def __init__(self, difficulty):
-        self.player = Player(difficulty["player_health"])
-
-
-class Player():
-    def __init__(self, health):
-        self.health = health
