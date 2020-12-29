@@ -50,6 +50,6 @@ class home_screen(menu):
     def __init__(self, game_instance) -> None:
         self.game_instance = game_instance
         self.buttons = [
-            Button(int(1280/2-60/2), int(720/2-20/2),
+            Button(int(1920/2 - 30), int(1080/2 - 200),
                    60, 20, self.game_instance.start_game, (0, 150, 0))
         ]
