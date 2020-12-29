@@ -26,13 +26,14 @@ class menu():
 class Button():
     """ contains implementation of buttons """
 
-    def __init__(self, x: int, y: int, xsize: int, ysize: int, on_click: Callable, colour: Tuple[int, int, int]) -> None:
+    def __init__(self, x: int, y: int, xsize: int, ysize: int, colour: Tuple[int, int, int], on_click: Callable, *args) -> None:
         self.rect = pygame.Rect(x, y, xsize, ysize)
         self.colour = colour
         self.on_click = on_click
+        self.args = args
 
     def trigger(self) -> Any:
-        return self.on_click()
+        return self.on_click(self.args)
 
     def test_collision(self, x, y) -> bool:
         if self.rect.collidepoint(x, y):
@@ -49,7 +50,8 @@ class home_screen(menu):
 
     def __init__(self, game_instance) -> None:
         self.game_instance = game_instance
+        self.difficulty = self.game_instance.difficulty_option.easy
         self.buttons = [
             Button(int(1920/2 - 30), int(1080/2 - 200),
-                   60, 20, self.game_instance.start_game, (0, 150, 0))
+                   60, 20, (0, 150, 0), self.game_instance.start_game, self.difficulty)
         ]
