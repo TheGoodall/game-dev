@@ -26,7 +26,7 @@ class Button():
     """ contains implementation of buttons """
 
     def __init__(self, x: int, y: int, xsize: int, ysize: int, colour: Tuple[int, int, int], on_click: Callable, *args) -> None:
-        self.rect = pygame.Rect(x, y, xsize, ysize)
+        self.rect = pygame.Rect(int(x-xsize/2), int(y-ysize/2), xsize, ysize)
         self.colour = colour
         self.on_click = on_click
         self.args = args
@@ -41,16 +41,44 @@ class Button():
             return False
 
     def render(self, surface):
-        pygame.draw.rect(surface, self.colour, self.rect)
+        dimmness = 0.5
+        if self.test_collision(*pygame.mouse.get_pos()):
+            colour = (self.colour[0]*dimmness, self.colour[1]*dimmness, self.colour[2]*dimmness)
+        else:
+            colour = self.colour
+        pygame.draw.rect(surface, colour, self.rect)
 
 
 class home_screen(menu):
     """ Contains the implementation of menu specific to the main menu """
 
+    def alter_difficulty(self, do_increase: bool):
+        if do_increase:
+            if self.difficulty == self.difficulty.easy:
+                self.difficulty = self.difficulty.medium
+            elif self.difficulty == self.difficulty.medium:
+                self.difficulty = self.difficulty.hard
+        else:
+            if self.difficulty == self.difficulty.hard:
+                self.difficulty = self.difficulty.medium
+            elif self.difficulty == self.difficulty.medium:
+                self.difficulty = self.difficulty.easy
+        self.difficulty = self.difficulty
+
     def __init__(self, game_instance) -> None:
         self.game_instance = game_instance
-        self.difficulty = self.game_instance.difficulty_option.easy.value
+        self.difficulty = self.game_instance.difficulty_option.easy
         self.buttons = [
-            Button(int(1920/2 - 30), int(1080/2 - 200),
-                   60, 20, (0, 150, 0), self.game_instance.start_game, self.difficulty)
+
+            Button(int(1920/2), int(1080/2 - 200),
+                   120, 40, (0, 150, 0), self.game_instance.start_game, self.difficulty),
+
+            Button(int(1920/2 - 250), int(1080/2),
+                   120, 40, (0, 150, 0), self.alter_difficulty, False),
+            Button(int(1920/2 + 250), int(1080/2),
+                   120, 40, (0, 150, 0), self.alter_difficulty, True),
+
+            Button(int(1920/2), int(1080/2 + 200),
+                   120, 40, (150, 0, 0), self.game_instance.quit)
+
         ]

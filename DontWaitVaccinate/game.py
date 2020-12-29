@@ -11,9 +11,9 @@ class game():
 
     # Possible difficulty options
     class difficulty_option(Enum):
-        easy = {"player_health":100, "size":100, "density":10}
-        medium = {}
-        hard = {}
+        easy = {"player_health": 100, "size": 100, "density": 10}
+        medium = {"player_health": 100, "size": 100, "density": 10}
+        hard = {"player_health": 100, "size": 100, "density": 10}
 
     def __init__(self) -> None:
         self.running = True
@@ -22,8 +22,11 @@ class game():
         self.menu = home_screen(self)
 
     def start_game(self, difficulty) -> None:
-        self.game_state = game_state(difficulty)
+        self.game_state = game_state(difficulty.value)
         self.menu = None
+
+    def quit(self) -> None:
+        self.running = False
 
     def render(self, surface) -> None:
         if self.menu:
