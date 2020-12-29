@@ -28,9 +28,9 @@ class game():
     def quit(self) -> None:
         self.running = False
 
-    def render(self, surface) -> None:
+    def render(self, surface, font) -> None:
         if self.menu:
-            self.menu.render(surface)
+            self.menu.render(surface, font)
 
     def loop(self) -> None:
         self.events()

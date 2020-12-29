@@ -14,6 +14,9 @@ PYGAME_FLAGS = pygame.SCALED
 pygame.init()
 screen = pygame.display.set_mode(DEFAULT_SCREEN_RES, PYGAME_FLAGS)
 
+# Initialise Font
+font = pygame.font.SysFont(None, 24)
+
 # Initialise clock
 clock = pygame.time.Clock()
 
@@ -33,7 +36,7 @@ while game_instance.running:
     screen.fill((0,0,0))
 
     # Render Game to surface
-    game_instance.render(screen)
+    game_instance.render(screen, font)
 
     # Scale surface and render to screen
     pygame.display.update()
