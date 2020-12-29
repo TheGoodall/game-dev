@@ -23,6 +23,7 @@ class game():
 
     def start_game(self, difficulty) -> None:
         self.game_state = game_state(difficulty)
+        self.menu = None
 
     def render(self, surface) -> None:
         if self.menu:
@@ -35,3 +36,5 @@ class game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+            if self.menu:
+                self.menu.process_event(event)

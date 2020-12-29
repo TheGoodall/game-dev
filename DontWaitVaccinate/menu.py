@@ -14,10 +14,11 @@ class menu():
 
     def process_event(self, event) -> None:
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if pygame.mouse.get_pressed()[0]:
-                x, y = pygame.mouse.get_pos()
+            if event.button == 1:
+                pos = event.pos
                 for button in self.buttons:
-                    if button.test_collision(x, y):
+                    if button.test_collision(pos[0], pos[1]):
+                        print("triggered")
                         button.trigger()
                         break
 

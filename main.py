@@ -7,13 +7,12 @@ import DontWaitVaccinate.game as game
 
 # Initialise game constants
 FRAMERATE = 60
-RENDER_RES = (1280,720)
-DEFAULT_SCREEN_RES = (1280,720)
+DEFAULT_SCREEN_RES = (1920, 1080)
+PYGAME_FLAGS = pygame.SCALED
 
 # Initialise Pygame and displays
 pygame.init()
-screen = pygame.display.set_mode(DEFAULT_SCREEN_RES, pygame.RESIZABLE)
-surface = pygame.Surface(RENDER_RES)
+screen = pygame.display.set_mode(DEFAULT_SCREEN_RES, PYGAME_FLAGS)
 
 # Initialise clock
 clock = pygame.time.Clock()
@@ -31,9 +30,7 @@ while game_instance.running:
     game_instance.loop()
 
     # Render Game to surface
-    game_instance.render(surface)
+    game_instance.render(screen)
 
     # Scale surface and render to screen
-    pygame.transform.scale(
-        surface, (screen.get_width(), screen.get_height()), screen)
     pygame.display.update()
