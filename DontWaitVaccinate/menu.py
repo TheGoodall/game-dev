@@ -18,7 +18,6 @@ class menu():
                 pos = event.pos
                 for button in self.buttons:
                     if button.test_collision(pos[0], pos[1]):
-                        print("triggered")
                         button.trigger()
                         break
 
@@ -33,7 +32,7 @@ class Button():
         self.args = args
 
     def trigger(self) -> Any:
-        return self.on_click(self.args)
+        return self.on_click(*self.args)
 
     def test_collision(self, x, y) -> bool:
         if self.rect.collidepoint(x, y):
@@ -50,7 +49,7 @@ class home_screen(menu):
 
     def __init__(self, game_instance) -> None:
         self.game_instance = game_instance
-        self.difficulty = self.game_instance.difficulty_option.easy
+        self.difficulty = self.game_instance.difficulty_option.easy.value
         self.buttons = [
             Button(int(1920/2 - 30), int(1080/2 - 200),
                    60, 20, (0, 150, 0), self.game_instance.start_game, self.difficulty)

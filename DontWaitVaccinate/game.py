@@ -11,8 +11,8 @@ class game():
 
     # Possible difficulty options
     class difficulty_option(Enum):
-        easy = {},
-        medium = {},
+        easy = {}
+        medium = {}
         hard = {}
 
     def __init__(self) -> None:
