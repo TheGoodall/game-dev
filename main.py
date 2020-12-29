@@ -29,6 +29,9 @@ while game_instance.running:
     # Process events
     game_instance.loop()
 
+    # Clear screen
+    screen.fill((0,0,0))
+
     # Render Game to surface
     game_instance.render(screen)
 

@@ -11,7 +11,7 @@ class game():
 
     # Possible difficulty options
     class difficulty_option(Enum):
-        easy = {}
+        easy = {"player_health":100, "size":100, "density":10}
         medium = {}
         hard = {}
 

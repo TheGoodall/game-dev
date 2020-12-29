@@ -3,7 +3,6 @@ class game_state():
     # Initialise with difficulty options (d)
 
     def __init__(self, d) -> None:
-        print(d)
 
         # Initialise Player
         self.player = Player(d['player_health'])
