@@ -1,5 +1,7 @@
 from typing import Any, Callable, Tuple
 
+from enum import Enum
+
 import pygame
 
 
@@ -75,6 +77,13 @@ class Text():
         self.rendered_text = None
 
 
+difficulty_option = {
+    "easy":     {"difficulty": "easy", "player_health": 100, "size": 100, "density": 10},
+    "medium":   {"difficulty": "medium", "player_health": 100, "size": 100, "density": 10},
+    "hard":     {"difficulty": "hard", "player_health": 100, "size": 100, "density": 10}
+}
+
+
 class Difficulty_display(Text):
     def __init__(self, x, y):
         self.currentDifficulty = None
@@ -83,9 +92,9 @@ class Difficulty_display(Text):
     def render(self, surface, font, difficulty) -> None:
         if difficulty != self.currentDifficulty:
             self.currentDifficulty = difficulty
-            self.change_text("Difficulty: {}".format(self.currentDifficulty.name))
+            self.change_text("Difficulty: {}".format(
+                self.currentDifficulty))
         super().render(surface, font)
-        
 
 
 class home_screen(menu):
@@ -93,24 +102,23 @@ class home_screen(menu):
 
     def alter_difficulty(self, do_increase: bool) -> None:
         if do_increase:
-            if self.difficulty == self.difficulty.easy:
-                self.difficulty = self.difficulty.medium
-            elif self.difficulty == self.difficulty.medium:
-                self.difficulty = self.difficulty.hard
+            if self.difficulty == "easy":
+                self.difficulty = "medium"
+            elif self.difficulty == "medium":
+                self.difficulty = "hard"
         else:
-            if self.difficulty == self.difficulty.hard:
-                self.difficulty = self.difficulty.medium
-            elif self.difficulty == self.difficulty.medium:
-                self.difficulty = self.difficulty.easy
-        self.difficulty = self.difficulty
+            if self.difficulty == "hard":
+                self.difficulty = "medium"
+            elif self.difficulty == "medium":
+                self.difficulty = "easy"
 
     def __init__(self, game_instance) -> None:
         self.game_instance = game_instance
-        self.difficulty = self.game_instance.difficulty_option.easy
+        self.difficulty = "easy"
         self.buttons = [
 
             Button(int(1920/2), int(1080/2 - 200),
-                   120, 40, (0, 150, 0), "Start", self.game_instance.start_game, self.difficulty),
+                   120, 40, (0, 150, 0), "Start", self.game_instance.start_game, difficulty_option[self.difficulty]),
 
             Button(int(1920/2 - 250), int(1080/2),
                    120, 40, (0, 150, 0), "Easier", self.alter_difficulty, False),
