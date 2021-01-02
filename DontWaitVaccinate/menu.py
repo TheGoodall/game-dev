@@ -10,6 +10,7 @@ class menu():
     texts = []
 
     def render(self, surface, font) -> None:
+        surface.fill((35, 35, 35))
         for button in self.buttons:
             button.render(surface, font)
         for text in self.texts:
@@ -59,22 +60,38 @@ class Button():
 
 
 class Text():
-    def __init__(self, text: str, x: int, y: int):
+    def __init__(self, text: str, x: int, y: int) -> None:
         self.text = text
-        self.x = x
-        self.y = y
+        self.rect = pygame.Rect(x, y, 100, 100)
         self.rendered_text = None
 
-    def render(self, surface, font):
+    def render(self, surface, font) -> None:
         if not self.rendered_text:
             self.rendered_text = font.render(self.text, True, (255, 255, 255))
-        surface.blit(self.rendered_text, (self.x, self.y))
+        surface.blit(self.rendered_text, self.rect)
+
+    def change_text(self, newtext: str) -> None:
+        self.text = newtext
+        self.rendered_text = None
+
+
+class Difficulty_display(Text):
+    def __init__(self, x, y):
+        self.currentDifficulty = None
+        super().__init__("Difficulty: ", x, y)
+
+    def render(self, surface, font, difficulty) -> None:
+        if difficulty != self.currentDifficulty:
+            self.currentDifficulty = difficulty
+            self.change_text("Difficulty: {}".format(self.currentDifficulty.name))
+        super().render(surface, font)
+        
 
 
 class home_screen(menu):
     """ Contains the implementation of menu specific to the main menu """
 
-    def alter_difficulty(self, do_increase: bool):
+    def alter_difficulty(self, do_increase: bool) -> None:
         if do_increase:
             if self.difficulty == self.difficulty.easy:
                 self.difficulty = self.difficulty.medium
@@ -105,5 +122,10 @@ class home_screen(menu):
 
         ]
         self.texts = [
-            Text("Don't Wait! Vaccinate!", 100, 100)
+            Text("Don't Wait! Vaccinate!", 770, 245)
         ]
+        self.difficulty_display = Difficulty_display(850, 520)
+
+    def render(self, surface, font) -> None:
+        super().render(surface, font)
+        self.difficulty_display.render(surface, font, self.difficulty)
