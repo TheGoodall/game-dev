@@ -8,7 +8,7 @@ class game_state():
     def __init__(self, d) -> None:
 
         # Initialise Player
-        self.player = Player(d['player_health'])
+        self.player = Player()
 
         # Initialise World
         self.world = World(d['size'], d['density'])
@@ -27,14 +27,24 @@ class game_state():
         pass
 
 
-class Player():
+class PhysicalObject():
+    def render(self, surface, font):
+        """ Render Entity """
+        pass
+
+
+class Entity(PhysicalObject):
+    pass
+
+
+class NPC(Entity):
+    pass
+
+
+class Player(Entity):
     """ Contains the current state of the player """
 
-    def __init__(self, health) -> None:
-        self.health = health
-
-    def render(self, surface, font):
-        """ Render player """
+    def __init__(self) -> None:
         pass
 
 
