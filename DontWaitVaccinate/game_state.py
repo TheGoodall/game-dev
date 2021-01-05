@@ -56,4 +56,5 @@ class World():
 
     def render(self, surface, font):
         """ Render world """
+        surface.fill((50, 150, 50))
         pass
