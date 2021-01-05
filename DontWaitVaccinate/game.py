@@ -13,7 +13,7 @@ class game():
     def __init__(self) -> None:
         self.running = True
         self.game_state = False
-        self.paused = False
+        self.paused = None
         self.menu = home_screen(self)
 
     def start_game(self, difficulty) -> None:
@@ -26,6 +26,10 @@ class game():
     def render(self, surface, font) -> None:
         if self.menu:
             self.menu.render(surface, font)
+        elif self.game_state:
+            self.game_state.render(surface, font)
+            if self.paused:
+                self.paused.render(surface, font)
 
     def loop(self) -> None:
         self.events()
