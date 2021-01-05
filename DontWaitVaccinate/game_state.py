@@ -14,13 +14,16 @@ class game_state():
         self.world = World(d['size'], d['density'])
 
     def render(self, surface, font):
+        """ Render every subobject of game state """
         self.world.render(surface, font)
         self.player.render(surface, font)
 
     def process_event(self, event) -> None:
+        """ Process an event """
         pass
 
     def update(self, delta) -> None:
+        """ Update game state with time delta 'delta' """
         pass
 
 
@@ -31,6 +34,7 @@ class Player():
         self.health = health
 
     def render(self, surface, font):
+        """ Render player """
         pass
 
 
@@ -41,4 +45,5 @@ class World():
         pass
 
     def render(self, surface, font):
+        """ Render world """
         pass
