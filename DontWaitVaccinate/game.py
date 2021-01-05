@@ -31,9 +31,10 @@ class game():
             if self.paused:
                 self.paused.render(surface, font)
 
-    def loop(self) -> None:
+    def loop(self, delta) -> None:
         """ Run the game loop once """
         self.events()
+        self.game_state.update(delta)
 
     def events(self) -> None:
         """ Iterate through each event processing it """
@@ -42,3 +43,8 @@ class game():
                 self.running = False
             if self.menu:
                 self.menu.process_event(event)
+            elif self.game_state:
+                if self.paused:
+                    self.paused.process_event(event)
+                else:
+                    self.game_state.process_event(event)

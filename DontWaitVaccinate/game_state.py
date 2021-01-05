@@ -17,6 +17,12 @@ class game_state():
         self.world.render(surface, font)
         self.player.render(surface, font)
 
+    def process_event(self, event) -> None:
+        pass
+
+    def update(self, delta) -> None:
+        pass
+
 
 class Player():
     """ Contains the current state of the player """

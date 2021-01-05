@@ -31,7 +31,7 @@ while game_instance.running:
     clock.tick(FRAMERATE)
 
     # Process events
-    game_instance.loop()
+    game_instance.loop(clock.get_time())
 
     # Clear screen
     screen.fill(BACKGROUND_COLOUR)
