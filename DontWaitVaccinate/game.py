@@ -34,7 +34,8 @@ class game():
     def loop(self, delta) -> None:
         """ Run the game loop once """
         self.events()
-        self.game_state.update(delta)
+        if not self.menu and self.game_state and not self.paused:
+            self.game_state.update(delta)
 
     def events(self) -> None:
         """ Iterate through each event processing it """
