@@ -12,6 +12,7 @@ class menu():
     texts = []
 
     def render(self, surface, font) -> None:
+        """ Render each subobject of the menu """
         surface.fill((35, 35, 35))
         for button in self.buttons:
             button.render(surface, font)
@@ -19,6 +20,7 @@ class menu():
             text.render(surface, font)
 
     def process_event(self, event) -> None:
+        """ Process events relating to the menu """
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 pos = event.pos
@@ -40,15 +42,18 @@ class Button():
         self.args = args
 
     def trigger(self) -> Any:
+        """ Run the function assigned to the button """
         return self.on_click(*self.args)
 
     def test_collision(self, x, y) -> bool:
+        """ Test if a single point is within the button """
         if self.rect.collidepoint(x, y):
             return True
         else:
             return False
 
     def render(self, surface, font):
+        """ Render the button, darker if overlapping with mouse """
         dimmness = 0.5
         if self.test_collision(*pygame.mouse.get_pos()):
             colour = (self.colour[0]*dimmness, self.colour[1]
@@ -62,6 +67,7 @@ class Button():
 
 
 class Text():
+    """ Object for rendering text """
     def __init__(self, text: str, x: int, y: int) -> None:
         self.text = text
         self.rect = pygame.Rect(x, y, 100, 100)
@@ -77,6 +83,7 @@ class Text():
         self.rendered_text = None
 
 
+# Difficulty options possible
 difficulty_option = {
     "easy":     {"difficulty": "easy", "player_health": 100, "size": 100, "density": 10},
     "medium":   {"difficulty": "medium", "player_health": 100, "size": 100, "density": 10},
@@ -85,6 +92,7 @@ difficulty_option = {
 
 
 class Difficulty_display(Text):
+    """ Child class of Text which displays the current difficulty """
     def __init__(self, x, y):
         self.currentDifficulty = None
         super().__init__("Difficulty: ", x, y)
@@ -101,6 +109,7 @@ class home_screen(menu):
     """ Contains the implementation of menu specific to the main menu """
 
     def alter_difficulty(self, do_increase: bool) -> None:
+        """ Change the current difficulty either one up or one down, but remains within bounds """
         if do_increase:
             if self.difficulty == "easy":
                 self.difficulty = "medium"
@@ -135,5 +144,6 @@ class home_screen(menu):
         self.difficulty_display = Difficulty_display(850, 520)
 
     def render(self, surface, font) -> None:
+        """ Render the main menu """
         super().render(surface, font)
         self.difficulty_display.render(surface, font, self.difficulty)

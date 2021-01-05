@@ -8,8 +8,6 @@ from DontWaitVaccinate.menu import home_screen
 class game():
     """ Contains the state of the game as a whole, including menu screens. """
 
-    # Possible difficulty options
-
     def __init__(self) -> None:
         self.running = True
         self.game_state = False
@@ -17,6 +15,7 @@ class game():
         self.menu = home_screen(self)
 
     def start_game(self, difficulty) -> None:
+        """ Start a new game and close the menu """
         self.game_state = game_state(difficulty)
         self.menu = None
 
@@ -24,6 +23,7 @@ class game():
         self.running = False
 
     def render(self, surface, font) -> None:
+        """ Calls render on all subobjects of the game object """
         if self.menu:
             self.menu.render(surface, font)
         elif self.game_state:
@@ -32,9 +32,11 @@ class game():
                 self.paused.render(surface, font)
 
     def loop(self) -> None:
+        """ Run the game loop once """
         self.events()
 
     def events(self) -> None:
+        """ Iterate through each event processing it """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
