@@ -3,6 +3,7 @@ from typing import Any, Callable, Tuple
 from enum import Enum
 
 import pygame
+from pygame.mixer import unpause
 
 
 class menu():
@@ -11,9 +12,10 @@ class menu():
     buttons = []
     texts = []
 
-    def render(self, surface, font) -> None:
+    def render(self, surface, font, bg=True) -> None:
         """ Render each subobject of the menu """
-        surface.fill((35, 35, 35))
+        if bg:
+            surface.fill((35, 35, 35))
         for button in self.buttons:
             button.render(surface, font)
         for text in self.texts:
@@ -104,6 +106,29 @@ class Difficulty_display(Text):
                 self.currentDifficulty))
         super().render(surface, font)
 
+class pause_screen(menu):
+    """ Contains the implementation of menu specific to the main menu """
+
+    def __init__(self, game_instance) -> None:
+        self.game_instance = game_instance
+        self.buttons = [
+
+            Button(int(1920/2), int(1080/2),
+                120, 40, (0, 150, 0), "Resume", (self.game_instance.unpause)),
+            Button(int(1920/2), int(1080/2 + 100),
+                   120, 40, (0, 150, 0), "Quit to Menu", self.game_instance.quit_to_menu),
+            Button(int(1920/2), int(1080/2 + 200),
+                   120, 40, (150, 0, 0), "Quit!", self.game_instance.quit)
+
+        ]
+        self.texts = [
+            Text("Don't Wait! Vaccinate!", 770, 245),
+            Text("Paused", 770, 345)
+        ]
+
+    def render(self, surface, font) -> None:
+        """ Render the pause menu """
+        super().render(surface, font, False)
 
 class home_screen(menu):
     """ Contains the implementation of menu specific to the main menu """

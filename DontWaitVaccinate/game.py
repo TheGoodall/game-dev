@@ -3,6 +3,7 @@ import pygame
 from DontWaitVaccinate.game_state import game_state
 
 from DontWaitVaccinate.menu import home_screen
+from DontWaitVaccinate.menu import pause_screen
 
 
 class game():
@@ -10,7 +11,15 @@ class game():
 
     def __init__(self) -> None:
         self.running = True
-        self.game_state = False
+        self.game_state = None
+        self.paused = None
+        self.menu = home_screen(self)
+
+    def unpause(self) -> None:
+        self.paused = None
+
+    def quit_to_menu(self) -> None:
+        self.game_state = None
         self.paused = None
         self.menu = home_screen(self)
 
@@ -48,4 +57,7 @@ class game():
                 if self.paused:
                     self.paused.process_event(event)
                 else:
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:
+                            self.paused = pause_screen(self)
                     self.game_state.process_event(event)
