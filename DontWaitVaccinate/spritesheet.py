@@ -6,7 +6,7 @@ class spritesheet():
         self.sheet = pygame.image.load(image_path)
     
     def get_image(self, x, y, x_size, y_size):
-        image = pygame.Surface((x_size, y_size))
+        image = pygame.Surface((x_size, y_size), pygame.SRCALPHA, 32).convert_alpha()
         image.blit(self.sheet, (0,0), pygame.Rect(x, y, x_size, y_size))
         return image
 
