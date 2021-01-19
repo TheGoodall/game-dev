@@ -2,6 +2,7 @@ import pygame
 
 from . import spritesheet
 
+
 class game_state():
     """ Contains the current game state, including the player, the world, and any NPCs """
     # Initialise with difficulty options (d)
@@ -10,13 +11,13 @@ class game_state():
 
         self.cam_pos = (0, 0)
 
-
-        spritesheet1 = spritesheet.spritesheet("DontWaitVaccinate/images/spritesheet.png")
-        spritesheet2 = spritesheet.spritesheet("DontWaitVaccinate/images/spritesheet 2.png")
-        
+        spritesheet1 = spritesheet.spritesheet(
+            "DontWaitVaccinate/images/spritesheet.png")
+        spritesheet2 = spritesheet.spritesheet(
+            "DontWaitVaccinate/images/spritesheet 2.png")
 
         # Initialise Player
-        self.player = Player(spritesheet1.get_images(0,0))
+        self.player = Player(spritesheet1.get_images(0, 0))
 
         # Initialise World
         self.world = World(d['size'], d['density'])
@@ -28,36 +29,63 @@ class game_state():
 
     def process_event(self, event) -> None:
         """ Process an event """
-        pass
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_w:
+                self.player.m_up = True
+            if event.key == pygame.K_s:
+                self.player.m_down = True
+            if event.key == pygame.K_a:
+                self.player.m_left = True
+            if event.key == pygame.K_d:
+                self.player.m_right = True
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_w:
+                self.player.m_up = False
+            if event.key == pygame.K_s:
+                self.player.m_down = False
+            if event.key == pygame.K_a:
+                self.player.m_left = False
+            if event.key == pygame.K_d:
+                self.player.m_right = False
 
     def update(self, delta) -> None:
         """ Update game state with time delta 'delta' """
-        self.update_camera(0.5)
+        self.player.update(delta)
+        self.cam_pos = self.update_camera(0.5)
         pass
 
     def update_camera(self, fraction):
         cam_pos = self.cam_pos
         player_pos = self.player.pos
-
-        return cam_pos[0] + (cam_pos[0] - player_pos[0]) * fraction, cam_pos[1] + (cam_pos[1] - player_pos[1]) * fraction
-
-
+        return cam_pos[0] + (player_pos[0] - cam_pos[0]) * \
+            fraction, cam_pos[1] + (player_pos[1] - cam_pos[1]) * fraction
 
 
 class PhysicalObject():
     def __init__(self, pos):
         self.pos = pos
+        self.m_up = False
+        self.m_down = False
+        self.m_left = False
+        self.m_right = False
+
     def render(self, surface, font, cam_pos, sprite):
         """ Render Entity """
         pos = (self.pos[0]-cam_pos[0], self.pos[1]-cam_pos[1])
-        print(sprite)
         pygame.Surface.blit(sprite, surface, pos)
+
+
+
 
 class Entity(PhysicalObject):
     def __init__(self, pos, sprites):
         self.sprites = sprites
         self.sprite_state = 0
         self.sprite_dir = 1
+        self.m_up = False
+        self.m_down = False
+        self.m_left = False
+        self.m_right = False
         super().__init__(pos)
 
     def render(self, surface, font, cam_pos):
@@ -69,6 +97,15 @@ class Entity(PhysicalObject):
 
         super().render(surface, font, cam_pos, sprite)
 
+    def update(self, delta):
+        if self.m_down and not self.m_up:
+            self.pos[1] += 10
+        if self.m_up and not self.m_down:
+            self.pos[1] -= 10
+        if self.m_left and not self.m_right:
+            self.pos[0] -= 10
+        if self.m_right and not self.m_left:
+            self.pos[0] += 10
 
 
 class NPC(Entity):
@@ -79,7 +116,7 @@ class Player(Entity):
     """ Contains the current state of the player """
 
     def __init__(self, sprites) -> None:
-        super().__init__((0,0), sprites)
+        super().__init__([0, 0], sprites)
 
 
 class World():
