@@ -29,9 +29,11 @@ while game_instance.running:
 
     # Tick clock at 60fps
     clock.tick(FRAMERATE)
+    time = clock.get_time()
+    print(1000.0/time)
 
     # Process events
-    game_instance.loop(clock.get_time())
+    game_instance.loop(time)
 
     # Clear screen
     screen.fill(BACKGROUND_COLOUR)
