@@ -9,7 +9,7 @@ class game_state():
 
     def __init__(self, d) -> None:
 
-        self.cam_pos = (0, 0)
+        self.cam_pos = (-1920/2, -1080/2)
 
         spritesheet1 = spritesheet.spritesheet(
             "DontWaitVaccinate/images/spritesheet.png")
@@ -51,30 +51,24 @@ class game_state():
     def update(self, delta) -> None:
         """ Update game state with time delta 'delta' """
         self.player.update(delta)
-        self.cam_pos = self.update_camera(0.5)
+        self.cam_pos = self.update_camera(0.2 * delta/16.0)
         pass
 
     def update_camera(self, fraction):
         cam_pos = self.cam_pos
         player_pos = self.player.pos
-        return cam_pos[0] + (player_pos[0] - cam_pos[0]) * \
-            fraction, cam_pos[1] + (player_pos[1] - cam_pos[1]) * fraction
+        return cam_pos[0] + ((player_pos[0]-(1920/2)) - cam_pos[0]) * fraction, \
+               cam_pos[1] + ((player_pos[1]-(1080/2)) - cam_pos[1]) * fraction
 
 
 class PhysicalObject():
     def __init__(self, pos):
         self.pos = pos
-        self.m_up = False
-        self.m_down = False
-        self.m_left = False
-        self.m_right = False
 
     def render(self, surface, font, cam_pos, sprite):
-        """ Render Entity """
+        """ Render object """
         pos = (self.pos[0]-cam_pos[0], self.pos[1]-cam_pos[1])
-        pygame.Surface.blit(sprite, surface, pos)
-
-
+        surface.blit(sprite, pos)
 
 
 class Entity(PhysicalObject):
@@ -82,6 +76,7 @@ class Entity(PhysicalObject):
         self.sprites = sprites
         self.sprite_state = 0
         self.sprite_dir = 1
+        self.sprite_timer = 0
         self.m_up = False
         self.m_down = False
         self.m_left = False
@@ -99,13 +94,37 @@ class Entity(PhysicalObject):
 
     def update(self, delta):
         if self.m_down and not self.m_up:
-            self.pos[1] += 10
-        if self.m_up and not self.m_down:
-            self.pos[1] -= 10
+            if self.m_left ^ self.m_right:
+                self.pos[1] += 3.5
+            else:
+                self.pos[1] += 5
+                self.sprite_dir = 2
+        elif self.m_up and not self.m_down:
+            if self.m_left ^ self.m_right:
+                self.pos[1] -= 3.5
+            else:
+                self.pos[1] -= 5
+                self.sprite_dir = 0
         if self.m_left and not self.m_right:
-            self.pos[0] -= 10
-        if self.m_right and not self.m_left:
-            self.pos[0] += 10
+            if self.m_up ^ self.m_down:
+                self.pos[0] -= 3.5
+            else:
+                self.pos[0] -= 5
+                self.sprite_dir = 3
+        elif self.m_right and not self.m_left:
+            if self.m_up ^ self.m_down:
+                self.pos[0] += 3.5
+            else:
+                self.pos[0] += 5
+                self.sprite_dir = 1
+        if (self.m_up ^ self.m_down) or (self.m_left ^ self.m_right):
+            self.sprite_timer -= delta
+            if self.sprite_timer <= 0:
+                self.sprite_state = (self.sprite_state + 1) % 4
+                self.sprite_timer += 100
+        else:
+            self.sprite_state = 1
+        
 
 
 class NPC(Entity):
