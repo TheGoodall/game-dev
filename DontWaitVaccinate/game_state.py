@@ -95,27 +95,27 @@ class Entity(PhysicalObject):
     def update(self, delta):
         if self.m_down and not self.m_up:
             if self.m_left ^ self.m_right:
-                self.pos[1] += 3.5
+                self.pos[1] += 3.5 * (delta/16.0)
             else:
-                self.pos[1] += 5
+                self.pos[1] += 5 * (delta/16.0)
                 self.sprite_dir = 2
         elif self.m_up and not self.m_down:
             if self.m_left ^ self.m_right:
-                self.pos[1] -= 3.5
+                self.pos[1] -= 3.5 * (delta/16.0)
             else:
-                self.pos[1] -= 5
+                self.pos[1] -= 5 * (delta/16.0)
                 self.sprite_dir = 0
         if self.m_left and not self.m_right:
             if self.m_up ^ self.m_down:
-                self.pos[0] -= 3.5
+                self.pos[0] -= 3.5 * (delta/16.0)
             else:
-                self.pos[0] -= 5
+                self.pos[0] -= 5 * (delta/16.0)
                 self.sprite_dir = 3
         elif self.m_right and not self.m_left:
             if self.m_up ^ self.m_down:
-                self.pos[0] += 3.5
+                self.pos[0] += 3.5 * (delta/16.0)
             else:
-                self.pos[0] += 5
+                self.pos[0] += 5 * (delta/16.0)
                 self.sprite_dir = 1
         if (self.m_up ^ self.m_down) or (self.m_left ^ self.m_right):
             self.sprite_timer -= delta
