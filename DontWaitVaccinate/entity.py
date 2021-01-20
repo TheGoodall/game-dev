@@ -1,5 +1,5 @@
 import math
-
+from . import vector
 
 class PhysicalObject():
     def __init__(self, pos):
@@ -11,24 +11,6 @@ class PhysicalObject():
         surface.blit(sprite, pos)
 
 
-def vec_subtract(vec1, vec2):
-    return map(lambda x: x[0]-x[1], zip(vec1, vec2))
-
-
-def vec_add(vec1, vec2):
-    return map(lambda x: x[0]+x[1], zip(vec1, vec2))
-
-
-def vec_length(vec):
-    return math.sqrt(sum(map(lambda x: x**2, vec)))
-
-
-def vec_normalise(vec):
-    mag = vec_length(vec)
-    if mag != 0:
-        return map(lambda x: x/mag, vec)
-    else:
-        return map(lambda _: 0, vec)
 
 
 def vec_scale(vec, scale):
@@ -97,10 +79,10 @@ class Entity(PhysicalObject):
 
         for entity in entities:
             if abs(self.pos[0] - entity.pos[0]) < 50 and abs(self.pos[1] - entity.pos[1]) < 30:
-                difference = list(vec_subtract(self.pos, entity.pos))
-                distance = vec_length(difference)
+                difference = list(vector.subtract(self.pos, entity.pos))
+                distance = vector.length(difference)
                 if distance < 30:
-                    direction = vec_normalise(difference)
+                    direction = vector.normalise(difference)
                     force = list(vec_scale(direction, 30-distance))
-                    self.pos = list(vec_add(self.pos, force))
-                    entity.pos = list(vec_subtract(entity.pos, force))
+                    self.pos = list(vector.add(self.pos, force))
+                    entity.pos = list(vector.subtract(entity.pos, force))
