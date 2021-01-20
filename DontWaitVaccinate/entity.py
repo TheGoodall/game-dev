@@ -96,10 +96,11 @@ class Entity(PhysicalObject):
             self.sprite_state = 1
 
         for entity in entities:
-            difference = list(vec_subtract(self.pos, entity.pos))
-            distance = vec_length(difference)
-            if distance < 30:
-                direction = vec_normalise(difference)
-                force = list(vec_scale(direction, 30-distance))
-                self.pos = list(vec_add(self.pos, force))
-                entity.pos = list(vec_subtract(entity.pos, force))
+            if abs(self.pos[0] - entity.pos[0]) < 50 and abs(self.pos[1] - entity.pos[1]) < 30:
+                difference = list(vec_subtract(self.pos, entity.pos))
+                distance = vec_length(difference)
+                if distance < 30:
+                    direction = vec_normalise(difference)
+                    force = list(vec_scale(direction, 30-distance))
+                    self.pos = list(vec_add(self.pos, force))
+                    entity.pos = list(vec_subtract(entity.pos, force))
