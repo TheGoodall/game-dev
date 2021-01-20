@@ -21,16 +21,16 @@ class Entity(PhysicalObject):
         super().__init__(pos)
 
     def render(self, surface, font, cam_pos):
-        sprites = self.sprites[self.sprite_dir]
-        if self.sprite_state == 3:
-            sprite = sprites[1]
-        else:
-            sprite = sprites[self.sprite_state]
-
         if self.pos[0] >= cam_pos[0] - 50 and \
                 self.pos[0] <= cam_pos[0] + 1920 and \
                 self.pos[1] >= cam_pos[1] - 50 and \
                 self.pos[1] <= cam_pos[1] + 1080:
+            sprites = self.sprites[self.sprite_dir]
+            if self.sprite_state == 3:
+                sprite = sprites[1]
+            else:
+                sprite = sprites[self.sprite_state]
+
             super().render(surface, font, cam_pos, sprite)
 
     def update(self, delta):
