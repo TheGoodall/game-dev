@@ -3,6 +3,7 @@ import random
 
 from . import spritesheet, world, entity
 
+from . import vector
 
 class game_state():
     """ Contains the current game state, including the player, the world, and any NPCs """
@@ -78,6 +79,22 @@ class NPC(entity.Entity):
     def __init__(self, spritesheet) -> None:
         super().__init__([random.randint(-1000, 1000), random.randint(-1000, 1000)],
                          spritesheet.get_images(random.randint(0, 3), random.randint(0, 1)))
+        self.target = [0,0]
+        self.sleep = 0
+        self.arrived = False
+        
+    def update(self, delta, entities):
+        if self.arrived:
+            self.sleep -= delta
+            if self.sleep <= 0:
+                self.arrived = False
+            
+        else:
+            if vector.length(vector.subtract(self.target, self.pos)) < 100:
+                self.arrived = True
+            else:
+                self.m_dir = list(vector.normalise(vector.subtract(self.target, self.pos)))
+        super().update(delta, entities)
 
 
 class Player(entity.Entity):
