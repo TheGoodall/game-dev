@@ -1,3 +1,6 @@
+import math
+
+
 class PhysicalObject():
     def __init__(self, pos):
         self.pos = pos
@@ -6,6 +9,30 @@ class PhysicalObject():
         """ Render object """
         pos = (self.pos[0]-cam_pos[0], self.pos[1]-cam_pos[1])
         surface.blit(sprite, pos)
+
+
+def vec_subtract(vec1, vec2):
+    return map(lambda x: x[0]-x[1], zip(vec1, vec2))
+
+
+def vec_add(vec1, vec2):
+    return map(lambda x: x[0]+x[1], zip(vec1, vec2))
+
+
+def vec_length(vec):
+    return math.sqrt(sum(map(lambda x: x**2, vec)))
+
+
+def vec_normalise(vec):
+    mag = vec_length(vec)
+    if mag != 0:
+        return map(lambda x: x/mag, vec)
+    else:
+        return map(lambda _: 0, vec)
+
+
+def vec_scale(vec, scale):
+    return map(lambda x: x*scale, vec)
 
 
 class Entity(PhysicalObject):
@@ -67,4 +94,12 @@ class Entity(PhysicalObject):
                 self.sprite_timer += 60 if self.sprinting else 100
         else:
             self.sprite_state = 1
-        
+
+        for entity in entities:
+            difference = list(vec_subtract(self.pos, entity.pos))
+            distance = vec_length(difference)
+            if distance < 30:
+                direction = vec_normalise(difference)
+                force = list(vec_scale(direction, 30-distance))
+                self.pos = list(vec_add(self.pos, force))
+                entity.pos = list(vec_subtract(entity.pos, force))
