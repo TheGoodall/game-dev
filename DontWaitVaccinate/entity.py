@@ -14,6 +14,7 @@ class Entity(PhysicalObject):
         self.sprite_state = 0
         self.sprite_dir = 1
         self.sprite_timer = 0
+        self.sprinting = False
         self.m_up = False
         self.m_down = False
         self.m_left = False
@@ -33,36 +34,37 @@ class Entity(PhysicalObject):
 
             super().render(surface, font, cam_pos, sprite)
 
-    def update(self, delta):
+    def update(self, delta, entities):
+        speed_modifier = 1.5 if self.sprinting else 1.0
         if self.m_down and not self.m_up:
             if self.m_left ^ self.m_right:
-                self.pos[1] += 3.5 * (delta/16.0)
+                self.pos[1] += 3.5 * (delta/16.0) * speed_modifier
             else:
-                self.pos[1] += 5 * (delta/16.0)
+                self.pos[1] += 5 * (delta/16.0) * speed_modifier
                 self.sprite_dir = 2
         elif self.m_up and not self.m_down:
             if self.m_left ^ self.m_right:
-                self.pos[1] -= 3.5 * (delta/16.0)
+                self.pos[1] -= 3.5 * (delta/16.0) * speed_modifier
             else:
-                self.pos[1] -= 5 * (delta/16.0)
+                self.pos[1] -= 5 * (delta/16.0) * speed_modifier
                 self.sprite_dir = 0
         if self.m_left and not self.m_right:
             if self.m_up ^ self.m_down:
-                self.pos[0] -= 3.5 * (delta/16.0)
+                self.pos[0] -= 3.5 * (delta/16.0) * speed_modifier
             else:
-                self.pos[0] -= 5 * (delta/16.0)
+                self.pos[0] -= 5 * (delta/16.0) * speed_modifier
                 self.sprite_dir = 3
         elif self.m_right and not self.m_left:
             if self.m_up ^ self.m_down:
-                self.pos[0] += 3.5 * (delta/16.0)
+                self.pos[0] += 3.5 * (delta/16.0) * speed_modifier
             else:
-                self.pos[0] += 5 * (delta/16.0)
+                self.pos[0] += 5 * (delta/16.0) * speed_modifier
                 self.sprite_dir = 1
         if (self.m_up ^ self.m_down) or (self.m_left ^ self.m_right):
             self.sprite_timer -= delta
             if self.sprite_timer <= 0:
                 self.sprite_state = (self.sprite_state + 1) % 4
-                self.sprite_timer += 100
+                self.sprite_timer += 60 if self.sprinting else 100
         else:
             self.sprite_state = 1
         

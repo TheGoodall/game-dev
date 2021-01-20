@@ -37,27 +37,33 @@ class game_state():
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:
                 self.player.m_up = True
-            if event.key == pygame.K_s:
+            elif event.key == pygame.K_s:
                 self.player.m_down = True
-            if event.key == pygame.K_a:
+            elif event.key == pygame.K_a:
                 self.player.m_left = True
-            if event.key == pygame.K_d:
+            elif event.key == pygame.K_d:
                 self.player.m_right = True
-        if event.type == pygame.KEYUP:
+            elif event.key == pygame.K_LSHIFT:
+                print("Sprinting")
+                self.player.sprinting = True
+        elif event.type == pygame.KEYUP:
             if event.key == pygame.K_w:
                 self.player.m_up = False
-            if event.key == pygame.K_s:
+            elif event.key == pygame.K_s:
                 self.player.m_down = False
-            if event.key == pygame.K_a:
+            elif event.key == pygame.K_a:
                 self.player.m_left = False
-            if event.key == pygame.K_d:
+            elif event.key == pygame.K_d:
                 self.player.m_right = False
+            elif event.key == pygame.K_LSHIFT:
+                self.player.sprinting = False
 
     def update(self, delta) -> None:
         """ Update game state with time delta 'delta' """
-        self.player.update(delta)
+        self.player.update(delta, self.npcs+[self.player])
         self.cam_pos = self.update_camera(0.2 * delta/16.0)
-        pass
+        for entity in self.npcs:
+            entity.update(delta, self.npcs+[self.player])
 
     def update_camera(self, fraction):
         cam_pos = self.cam_pos
