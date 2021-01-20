@@ -84,4 +84,22 @@ class Player(entity.Entity):
     """ Contains the current state of the player """
 
     def __init__(self, sprites) -> None:
+        self.m_up = False
+        self.m_right = False
+        self.m_down = False
+        self.m_left = False
         super().__init__([0, 0], sprites)
+
+    def update(self, delta, entities):
+        diagonal_compensation = 0.7 if (self.m_up ^ self.m_down) and (self.m_left ^ self.m_right) else 1.0
+        sprinting_compensation =  1.5 if self.sprinting else 1.0
+        speed = diagonal_compensation * sprinting_compensation * 2 * (delta/16)
+        if self.m_up ^ self.m_down:
+            self.m_dir[1] = -speed if self.m_up else speed
+        else:
+            self.m_dir[1] = 0
+        if self.m_right ^ self.m_left:
+            self.m_dir[0] = speed if self.m_right else -speed
+        else:
+            self.m_dir[0] = 0
+        super().update(delta, entities)
