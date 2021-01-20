@@ -20,7 +20,7 @@ class game_state():
         # Initialise Player
         self.player = Player(spritesheet1.get_images(0, 0))
 
-        self.npcs = [NPC(spritesheet1) for i in range(100)]
+        self.npcs = [NPC(spritesheet1) for i in range(200)]
 
         # Initialise World
         self.world = world.World(d['size'], d['density'])
@@ -68,8 +68,8 @@ class game_state():
     def update_camera(self, fraction):
         cam_pos = self.cam_pos
         player_pos = self.player.pos
-        return cam_pos[0] + ((player_pos[0]-(1920/2)) - cam_pos[0]) * fraction, \
-            cam_pos[1] + ((player_pos[1]-(1080/2)) - cam_pos[1]) * fraction
+        return cam_pos[0] + ((player_pos[0]-(640/2)) - cam_pos[0]) * fraction, \
+            cam_pos[1] + ((player_pos[1]-(360/2)) - cam_pos[1]) * fraction
 
 
 class NPC(entity.Entity):

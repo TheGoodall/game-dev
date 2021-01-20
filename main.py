@@ -7,7 +7,7 @@ import DontWaitVaccinate.game as game
 
 # Initialise game constants
 FRAMERATE = 60
-DEFAULT_SCREEN_RES = (1920, 1080)
+DEFAULT_SCREEN_RES = (640, 360)
 PYGAME_FLAGS = pygame.SCALED
 BACKGROUND_COLOUR = (0, 0, 0)
 
@@ -16,7 +16,7 @@ pygame.init()
 screen = pygame.display.set_mode(DEFAULT_SCREEN_RES, PYGAME_FLAGS)
 
 # Initialise Font
-font = pygame.font.SysFont("ubuntu", 35)
+font = pygame.font.SysFont("ubuntu", 12)
 
 # Initialise clock
 clock = pygame.time.Clock()

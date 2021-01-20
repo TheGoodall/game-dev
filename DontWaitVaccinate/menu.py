@@ -113,11 +113,11 @@ class pause_screen(menu):
         self.game_instance = game_instance
         self.buttons = [
 
-            Button(int(1920/2), int(1080/2),
+            Button(int(640/2), int(480/2),
                 120, 40, (0, 150, 0), "Resume", (self.game_instance.unpause)),
-            Button(int(1920/2), int(1080/2 + 100),
+            Button(int(640/2), int(480/2 + 100),
                    120, 40, (0, 150, 0), "Quit to Menu", self.game_instance.quit_to_menu),
-            Button(int(1920/2), int(1080/2 + 200),
+            Button(int(640/2), int(480/2 + 200),
                    120, 40, (150, 0, 0), "Quit!", self.game_instance.quit)
 
         ]
@@ -151,20 +151,20 @@ class home_screen(menu):
         self.difficulty = "easy"
         self.buttons = [
 
-            Button(int(1920/2), int(1080/2 - 200),
+            Button(int(640/2), int(480/2 - 100),
                    120, 40, (0, 150, 0), "Start", self.game_instance.start_game, difficulty_option[self.difficulty]),
 
-            Button(int(1920/2 - 250), int(1080/2),
-                   120, 40, (0, 150, 0), "Easier", self.alter_difficulty, False),
-            Button(int(1920/2 + 250), int(1080/2),
-                   120, 40, (0, 150, 0), "Harder", self.alter_difficulty, True),
+            Button(int(640/2 - 200), int(480/2),
+                   60, 20, (0, 150, 0), "Easier", self.alter_difficulty, False),
+            Button(int(640/2 + 200), int(480/2),
+                   60, 20, (0, 150, 0), "Harder", self.alter_difficulty, True),
 
-            Button(int(1920/2), int(1080/2 + 200),
-                   120, 40, (150, 0, 0), "Quit!", self.game_instance.quit)
+            Button(int(640/2), int(480/2 + 100),
+                   60, 20, (150, 0, 0), "Quit!", self.game_instance.quit)
 
         ]
         self.texts = [
-            Text("Don't Wait! Vaccinate!", 770, 245)
+            Text("Don't Wait! Vaccinate!", 260, 50)
         ]
         self.difficulty_display = Difficulty_display(850, 520)
 

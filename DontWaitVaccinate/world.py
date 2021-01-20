@@ -8,7 +8,7 @@ class World():
         self.ground_texture = pygame.image.load(
             "DontWaitVaccinate/images/grass.jpg")
         self.ground_texture = pygame.transform.scale(
-            self.ground_texture, (500, 500))
+            self.ground_texture, (100, 100))
 
     def render_ground(self, surface, font, cam_pos):
         screen_size = surface.get_size()
@@ -18,8 +18,8 @@ class World():
         render_offset = -(cam_pos[0] % texture_size[0]
                           ), -(cam_pos[1] % texture_size[1])
 
-        count = round(screen_size[0] / texture_size[0] +
-                      1), round(screen_size[0] / texture_size[0] + 1)
+        count = round(screen_size[0] / texture_size[0] + 2),\
+            round(screen_size[0] / texture_size[0] + 1)
 
         render = []
 
