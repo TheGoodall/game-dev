@@ -1,5 +1,6 @@
 import pygame
 
+
 class World():
     """ Contains the current state of the world, e.g. buildings """
 

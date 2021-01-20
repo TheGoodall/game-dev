@@ -9,7 +9,7 @@ import DontWaitVaccinate.game as game
 FRAMERATE = 60
 DEFAULT_SCREEN_RES = (1920, 1080)
 PYGAME_FLAGS = pygame.SCALED
-BACKGROUND_COLOUR = (0,0,0)
+BACKGROUND_COLOUR = (0, 0, 0)
 
 # Initialise Pygame and displays
 pygame.init()
