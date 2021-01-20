@@ -115,9 +115,9 @@ class pause_screen(menu):
 
             Button(int(640/2), int(480/2),
                 120, 40, (0, 150, 0), "Resume", (self.game_instance.unpause)),
-            Button(int(640/2), int(480/2 + 100),
+            Button(int(640/2), int(480/2 + 50),
                    120, 40, (0, 150, 0), "Quit to Menu", self.game_instance.quit_to_menu),
-            Button(int(640/2), int(480/2 + 200),
+            Button(int(640/2), int(480/2 + 100),
                    120, 40, (150, 0, 0), "Quit!", self.game_instance.quit)
 
         ]
