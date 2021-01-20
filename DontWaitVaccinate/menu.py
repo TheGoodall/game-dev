@@ -1,9 +1,6 @@
 from typing import Any, Callable, Tuple
 
-from enum import Enum
-
 import pygame
-from pygame.mixer import unpause
 
 
 class menu():
