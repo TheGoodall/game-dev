@@ -19,7 +19,7 @@ class game_state():
         # Initialise Player
         self.player = Player(spritesheet1.get_images(0, 0))
 
-        self.npcs = [NPC(spritesheet1) for i in range(2000)]
+        self.npcs = [NPC(spritesheet1) for i in range(100)]
 
         # Initialise World
         self.world = world.World(d['size'], d['density'])
