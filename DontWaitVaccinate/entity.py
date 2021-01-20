@@ -27,7 +27,11 @@ class Entity(PhysicalObject):
         else:
             sprite = sprites[self.sprite_state]
 
-        super().render(surface, font, cam_pos, sprite)
+        if self.pos[0] >= cam_pos[0] - 50 and \
+                self.pos[0] <= cam_pos[0] + 1920 and \
+                self.pos[1] >= cam_pos[1] - 50 and \
+                self.pos[1] <= cam_pos[1] + 1080:
+            super().render(surface, font, cam_pos, sprite)
 
     def update(self, delta):
         if self.m_down and not self.m_up:

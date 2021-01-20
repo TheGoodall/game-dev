@@ -1,4 +1,4 @@
-import pygame
+import pygame, random
 
 from . import spritesheet, world, entity
 
@@ -19,6 +19,8 @@ class game_state():
         # Initialise Player
         self.player = Player(spritesheet1.get_images(0, 0))
 
+        self.npcs = [NPC(spritesheet1) for i in range(2000)]
+
         # Initialise World
         self.world = world.World(d['size'], d['density'])
 
@@ -26,6 +28,8 @@ class game_state():
         """ Render every subobject of game state """
         self.world.render_ground(surface, font, self.cam_pos)
         self.player.render(surface, font, self.cam_pos)
+        for npc in self.npcs:
+            npc.render(surface, font, self.cam_pos)
 
     def process_event(self, event) -> None:
         """ Process an event """
@@ -63,11 +67,14 @@ class game_state():
 
 
 class NPC(entity.Entity):
-    pass
+    """ Contains the current state of an NPC """
+    def __init__(self, spritesheet) -> None:
+        super().__init__([random.randint(-1000, 1000), random.randint(-1000, 1000)], spritesheet.get_images(random.randint(0,3), random.randint(0,1)))
+
 
 
 class Player(entity.Entity):
     """ Contains the current state of the player """
 
     def __init__(self, sprites) -> None:
-        super().__init__([0, 0], sprites)
+        super().__init__([0,0], sprites)

@@ -12,6 +12,7 @@ class spritesheet():
 
     def get_images(self, x, y):
         y = 4 * y
+        x = 3 * x
         down =     [self.get_image((x+i)*48, y*48, 48, 48) for i in range(3)]
         left =     [self.get_image((x+i)*48, (y+1)*48, 48, 48) for i in range(3)]
         right =    [self.get_image((x+i)*48, (y+2)*48, 48, 48) for i in range(3)]
