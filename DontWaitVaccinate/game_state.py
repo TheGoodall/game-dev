@@ -1,4 +1,5 @@
-import pygame, random
+import pygame
+import random
 
 from . import spritesheet, world, entity
 
@@ -62,19 +63,19 @@ class game_state():
         cam_pos = self.cam_pos
         player_pos = self.player.pos
         return cam_pos[0] + ((player_pos[0]-(1920/2)) - cam_pos[0]) * fraction, \
-               cam_pos[1] + ((player_pos[1]-(1080/2)) - cam_pos[1]) * fraction
-
+            cam_pos[1] + ((player_pos[1]-(1080/2)) - cam_pos[1]) * fraction
 
 
 class NPC(entity.Entity):
     """ Contains the current state of an NPC """
-    def __init__(self, spritesheet) -> None:
-        super().__init__([random.randint(-1000, 1000), random.randint(-1000, 1000)], spritesheet.get_images(random.randint(0,3), random.randint(0,1)))
 
+    def __init__(self, spritesheet) -> None:
+        super().__init__([random.randint(-1000, 1000), random.randint(-1000, 1000)],
+                         spritesheet.get_images(random.randint(0, 3), random.randint(0, 1)))
 
 
 class Player(entity.Entity):
     """ Contains the current state of the player """
 
     def __init__(self, sprites) -> None:
-        super().__init__([0,0], sprites)
+        super().__init__([0, 0], sprites)
