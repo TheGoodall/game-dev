@@ -80,7 +80,7 @@ class NPC(entity.Entity):
         super().__init__([random.randint(-1000, 1000), random.randint(-1000, 1000)],
                          spritesheet.get_images(random.randint(0, 3), random.randint(0, 1)))
         self.target = [0,0]
-        self.sleep = 0
+        self.sleep = random.randint(0, 2000)
         self.arrived = True
         
     def update(self, delta, entities):
@@ -93,7 +93,7 @@ class NPC(entity.Entity):
         else:
             if vector.length(vector.subtract(self.target, self.pos)) < 100:
                 self.arrived = True
-                self.sleep = 5000
+                self.sleep = random.randint(2000, 5000)
                 self.m_dir = [0,0]
             else:
                 self.m_dir = list(vector.normalise(vector.subtract(self.target, self.pos)))
