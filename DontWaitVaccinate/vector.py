@@ -14,6 +14,7 @@ def length(vec):
 
 
 def normalise(vec):
+    vec = list(vec)
     mag = length(vec)
     if mag != 0:
         return map(lambda x: x/mag, vec)
