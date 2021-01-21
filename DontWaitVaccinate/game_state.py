@@ -113,7 +113,7 @@ class Player(entity.Entity):
     def update(self, delta, entities):
         diagonal_compensation = 0.7 if (self.m_up ^ self.m_down) and (self.m_left ^ self.m_right) else 1.0
         sprinting_compensation =  1.5 if self.sprinting else 1.0
-        speed = diagonal_compensation * sprinting_compensation * 2 * (delta/16)
+        speed = diagonal_compensation * sprinting_compensation * 2
         if self.m_up ^ self.m_down:
             self.m_dir[1] = -speed if self.m_up else speed
         else:
