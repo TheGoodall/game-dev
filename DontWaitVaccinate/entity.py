@@ -1,5 +1,5 @@
 import math
-from . import vector
+from . import vector, covid
 
 class PhysicalObject():
     def __init__(self, pos):
