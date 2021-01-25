@@ -64,7 +64,6 @@ class Entity(PhysicalObject):
                 continue
             distance = self.pos.distance_to(entity.pos)
             if distance < 30:
-                correction = (self.pos - entity.pos)
-                correction.scale_to_length((30-distance) * 0.08)
+                correction = (self.pos - entity.pos).normalize() * ((30-distance) * 0.08)
                 entity.pos -= correction
                 self.pos += correction
