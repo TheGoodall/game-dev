@@ -9,7 +9,7 @@ class PhysicalObject():
     def render(self, surface, font, cam_pos, sprite):
         """ Render object """
         pos = self.pos - cam_pos
-        surface.blit(sprite, pos)
+        surface.blit(sprite, pos-V(24,24))
 
 
 class Entity(PhysicalObject):
@@ -36,6 +36,7 @@ class Entity(PhysicalObject):
                 sprite = sprites[self.sprite_state]
 
             super().render(surface, font, cam_pos, sprite)
+            self.covid.render(surface, font, cam_pos)
 
     def update(self, delta, entities):
         self.covid.update(delta, map(lambda x: x.covid, entities))

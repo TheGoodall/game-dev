@@ -1,18 +1,25 @@
 import random, pygame
 
+from pygame.math import Vector2 as V
+
 class emission():
     def __init__(self, pos, length):
         self.transparancy = 1
         self.pos = pos
-        self.length = length
+        self.length = V()
+        self.length.from_polar((length, 360*random.random()))
 
     def update(self, covids):
-        # if self.transparancy == 1.0:
+        if self.transparancy == 1.0:
+            for covid in covids:
+                if ((self.pos + self.length) - covid.parent.pos).magnitude() < 15:
+                    covid.load = 100
+            
             
         self.transparancy -= 0.1
 
     def render(self, surface, font, cam_pos):
-        pass
+        pygame.draw.line(surface, (38,93,200), self.pos-cam_pos, self.pos+self.length-cam_pos)
         
 
 class covid():
@@ -47,5 +54,6 @@ class covid():
 
         for iterated_emission in self.emissions:
             iterated_emission.update(covids)
-    def render(self):
-        pass
+    def render(self, surface, font, cam_pos):
+        for emission in self.emissions:
+            emission.render(surface, font, cam_pos)
