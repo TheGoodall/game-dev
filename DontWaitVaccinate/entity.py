@@ -1,5 +1,6 @@
 import math
-from . import vector, covid
+from pygame.math import Vector2 as V
+from . import covid
 
 class PhysicalObject():
     def __init__(self, pos):
@@ -7,7 +8,7 @@ class PhysicalObject():
 
     def render(self, surface, font, cam_pos, sprite):
         """ Render object """
-        pos = (self.pos[0]-cam_pos[0], self.pos[1]-cam_pos[1])
+        pos = self.pos - cam_pos
         surface.blit(sprite, pos)
 
 
@@ -18,7 +19,7 @@ class Entity(PhysicalObject):
         self.sprite_dir = 1
         self.sprite_timer = 0
         self.sprinting = False
-        self.m_dir = [0,0]
+        self.m_dir = V(0,0)
 
         self.covid = covid.covid(self, 1000)
         super().__init__(pos)
@@ -38,8 +39,7 @@ class Entity(PhysicalObject):
 
     def update(self, delta, entities):
         self.covid.update(delta, map(lambda x: x.covid, entities))
-        self.pos[0] += (delta/16) * self.m_dir[0]
-        self.pos[1] += (delta/16) * self.m_dir[1]
+        self.pos += self.m_dir * (delta/16)
         
         if self.m_dir[1] < -abs(self.m_dir[0]):
             self.sprite_dir = 0
@@ -59,11 +59,11 @@ class Entity(PhysicalObject):
             self.sprite_state = 1
 
         for entity in entities:
-            if abs(self.pos[0] - entity.pos[0]) < 50 and abs(self.pos[1] - entity.pos[1]) < 30:
-                difference = list(vector.subtract(self.pos, entity.pos))
-                distance = vector.length(difference)
-                if distance < 30:
-                    direction = vector.normalise(difference)
-                    force = list(vector.scale(direction, 30-distance))
-                    self.pos = list(vector.add(self.pos, force))
-                    entity.pos = list(vector.subtract(entity.pos, force))
+            if self == entity:
+                continue
+            distance = self.pos.distance_to(entity.pos)
+            if distance < 30:
+                correction = (self.pos - entity.pos)
+                correction.scale_to_length((30-distance) * 0.08)
+                entity.pos -= correction
+                self.pos += correction

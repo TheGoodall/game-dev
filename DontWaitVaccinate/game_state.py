@@ -1,9 +1,9 @@
 import pygame
 import random
 
-from . import spritesheet, world, entity
+from pygame.math import Vector2 as V
 
-from . import vector
+from . import spritesheet, world, entity
 
 class game_state():
     """ Contains the current game state, including the player, the world, and any NPCs """
@@ -11,7 +11,7 @@ class game_state():
 
     def __init__(self, d) -> None:
 
-        self.cam_pos = (-1920/2, -1080/2)
+        self.cam_pos = V(-1920/2, -1080/2)
 
         spritesheet1 = spritesheet.spritesheet(
             "DontWaitVaccinate/images/spritesheet.png")
@@ -62,24 +62,18 @@ class game_state():
     def update(self, delta) -> None:
         """ Update game state with time delta 'delta' """
         self.player.update(delta, self.npcs+[self.player])
-        self.cam_pos = self.update_camera(0.2 * delta/16.0)
+        self.cam_pos += ((self.player.pos - V(640/2, 360/2)) - self.cam_pos) * (0.2 * delta/16.0)
         for entity in self.npcs:
             entity.update(delta, self.npcs+[self.player])
-
-    def update_camera(self, fraction):
-        cam_pos = self.cam_pos
-        player_pos = self.player.pos
-        return cam_pos[0] + ((player_pos[0]-(640/2)) - cam_pos[0]) * fraction, \
-            cam_pos[1] + ((player_pos[1]-(360/2)) - cam_pos[1]) * fraction
 
 
 class NPC(entity.Entity):
     """ Contains the current state of an NPC """
 
     def __init__(self, spritesheet) -> None:
-        super().__init__([random.randint(-500, 500), random.randint(-500, 500)],
+        super().__init__(V(random.randint(-500, 500), random.randint(-500, 500)),
                          spritesheet.get_images(random.randint(0, 3), random.randint(0, 1)))
-        self.target = [0,0]
+        self.target = V(0,0)
         self.sleep = random.randint(0, 2000)
         self.arrived = True
         
@@ -88,15 +82,15 @@ class NPC(entity.Entity):
             self.sleep -= delta
             if self.sleep <= 0:
                 self.arrived = False
-                self.target = [random.randint(-500, 500), random.randint(-500,500)]
+                self.target = V(random.randint(-500, 500), random.randint(-500,500))
             
         else:
-            if vector.length(vector.subtract(self.target, self.pos)) < 100:
+            if (self.target - self.pos).magnitude() < 100:
                 self.arrived = True
                 self.sleep = random.randint(2000, 5000)
-                self.m_dir = [0,0]
+                self.m_dir = V(0,0)
             else:
-                self.m_dir = list(vector.normalise(vector.subtract(self.target, self.pos)))
+                self.m_dir = (self.target - self.pos).normalize()
         super().update(delta, entities)
 
 
@@ -108,7 +102,7 @@ class Player(entity.Entity):
         self.m_right = False
         self.m_down = False
         self.m_left = False
-        super().__init__([0, 0], sprites)
+        super().__init__(V(0, 0), sprites)
 
     def update(self, delta, entities):
         diagonal_compensation = 0.7 if (self.m_up ^ self.m_down) and (self.m_left ^ self.m_right) else 1.0

@@ -1,4 +1,3 @@
-from . import vector
 import random, pygame
 
 class emission():
