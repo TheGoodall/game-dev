@@ -9,19 +9,20 @@ class emission():
         self.direction = V()
         self.direction.from_polar((1, random.random()*360))
         self.distance = distance
+        self.length = V(0,0)
+        self.shorten = 0
 
     def infect(self, covids):
-        for covid in covids:
-            if ((self.pos + self.length) - covid.parent.pos).magnitude() < 15:
-                covid.load = random.randint(1, 1000)
-        return self
+        pass
+        # for covid in covids:
+            # if ((self.pos) - covid.parent.pos).magnitude() < 15:
+                # covid.load += random.randint(1, 1000)
+        # return self
     def update(self):
-        self.oldpos = pos
         self.pos += self.direction * self.speed
 
-
     def render(self, surface, font, cam_pos):
-        pygame.draw.line(surface, (38,93,200), self.pos-cam_pos, self.pos+(self.direction*10)-cam_pos)
+        pygame.draw.line(surface, (38,93,200), self.pos-cam_pos, (self.pos+(self.direction*self.speed))-cam_pos)
         
 
 class covid():
@@ -53,12 +54,11 @@ class covid():
         self.cough_timer = self.cough_timer % 2000
 
         for _ in range(num_emits):
-            self.emissions.append(emission(self.parent.pos, 25).infect(covids))
+            self.emissions.append(emission(self.parent.pos, 25))
         for _ in range(num_coughs):
             self.emissions.append(emission(self.parent.pos, 250))
         for iemission in self.emissions:
-            iemission.transparancy -= 1
-            if iemission.transparancy <= 0:
+            if iemission.length == V(0,0):
                 self.emissions.remove(iemission)
 
     def render(self, surface, font, cam_pos):
