@@ -20,3 +20,6 @@ def normalise(vec):
         return map(lambda x: x/mag, vec)
     else:
         return map(lambda _: 0, vec)
+
+def scale(vec, scale):
+    return map(lambda x: x*scale, vec)
