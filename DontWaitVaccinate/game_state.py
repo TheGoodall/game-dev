@@ -21,7 +21,7 @@ class game_state():
         # Initialise Player
         self.player = Player(spritesheet1.get_images(0, 0))
 
-        self.npcs = [NPC(spritesheet1) for i in range(200)]
+        self.npcs = [NPC(spritesheet1) for i in range(50)]
 
         # Initialise World
         self.world = world.World(d['size'], d['density'])
@@ -77,7 +77,7 @@ class NPC(entity.Entity):
     """ Contains the current state of an NPC """
 
     def __init__(self, spritesheet) -> None:
-        super().__init__([random.randint(-1000, 1000), random.randint(-1000, 1000)],
+        super().__init__([random.randint(-500, 500), random.randint(-500, 500)],
                          spritesheet.get_images(random.randint(0, 3), random.randint(0, 1)))
         self.target = [0,0]
         self.sleep = random.randint(0, 2000)
@@ -88,7 +88,7 @@ class NPC(entity.Entity):
             self.sleep -= delta
             if self.sleep <= 0:
                 self.arrived = False
-                self.target = [random.randint(-1000, 1000), random.randint(-1000,1000)]
+                self.target = [random.randint(-500, 500), random.randint(-500,500)]
             
         else:
             if vector.length(vector.subtract(self.target, self.pos)) < 100:
