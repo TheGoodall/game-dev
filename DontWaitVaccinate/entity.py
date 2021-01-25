@@ -11,12 +11,6 @@ class PhysicalObject():
         surface.blit(sprite, pos)
 
 
-
-
-def vec_scale(vec, scale):
-    return map(lambda x: x*scale, vec)
-
-
 class Entity(PhysicalObject):
     def __init__(self, pos, sprites):
         self.sprites = sprites
@@ -25,6 +19,8 @@ class Entity(PhysicalObject):
         self.sprite_timer = 0
         self.sprinting = False
         self.m_dir = [0,0]
+
+        self.covid = covid.covid(self, 1000)
         super().__init__(pos)
 
     def render(self, surface, font, cam_pos):
@@ -41,6 +37,7 @@ class Entity(PhysicalObject):
             super().render(surface, font, cam_pos, sprite)
 
     def update(self, delta, entities):
+        self.covid.update(delta, map(lambda x: x.covid, entities))
         self.pos[0] += (delta/16) * self.m_dir[0]
         self.pos[1] += (delta/16) * self.m_dir[1]
         
@@ -67,6 +64,6 @@ class Entity(PhysicalObject):
                 distance = vector.length(difference)
                 if distance < 30:
                     direction = vector.normalise(difference)
-                    force = list(vec_scale(direction, 30-distance))
+                    force = list(vector.scale(direction, 30-distance))
                     self.pos = list(vector.add(self.pos, force))
                     entity.pos = list(vector.subtract(entity.pos, force))
