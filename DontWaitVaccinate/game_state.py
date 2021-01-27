@@ -3,7 +3,9 @@ import random
 
 from pygame.math import Vector2 as V
 
-from . import spritesheet, world, entity
+from . import spritesheet, world, entity, covid
+
+import copy
 
 class game_state():
     """ Contains the current game state, including the player, the world, and any NPCs """
@@ -12,6 +14,8 @@ class game_state():
     def __init__(self, d) -> None:
 
         self.cam_pos = V(-1920/2, -1080/2)
+
+        self.vaccines = []
 
         spritesheet1 = spritesheet.spritesheet(
             "DontWaitVaccinate/images/spritesheet.png")
@@ -32,6 +36,8 @@ class game_state():
         self.player.render(surface, font, self.cam_pos)
         for npc in self.npcs:
             npc.render(surface, font, self.cam_pos)
+        for vaccine in self.vaccines:
+            vaccine.render(surface, font, self.cam_pos)
 
     def process_event(self, event) -> None:
         """ Process an event """
@@ -59,12 +65,23 @@ class game_state():
             elif event.key == pygame.K_LSHIFT:
                 self.player.sprinting = False
 
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                pos = event.pos
+                direction = (pos + self.cam_pos - self.player.pos)
+                self.vaccines.append(covid.vaccine(self.player, copy.copy(self.player.pos), 500, direction, (255,0,0), speed=6))
+
+
+
     def update(self, delta) -> None:
         """ Update game state with time delta 'delta' """
         self.player.update(delta, self.npcs+[self.player])
         self.cam_pos += ((self.player.pos - V(640/2, 360/2)) - self.cam_pos) * (0.2 * delta/16.0)
         for entity in self.npcs:
             entity.update(delta, self.npcs+[self.player])
+        for vaccine in self.vaccines:
+            vaccine.update(list(map(lambda x: x.covid, self.npcs)))
+        self.vaccines = list(filter(lambda x: not x.collided, self.vaccines))
 
 
 class NPC(entity.Entity):

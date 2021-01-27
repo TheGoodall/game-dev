@@ -5,10 +5,10 @@ from pygame.math import Vector2 as V
 import copy
 
 class emission():
-    def __init__(self, parent, pos, distance, direction = None, colour = (38,93,200)):
+    def __init__(self, parent, pos, distance, direction = None, colour = (38,93,200), speed=1):
         self.colour = colour
         self.parent = parent
-        self.speed = 1
+        self.speed = speed
         self.pos = pos
         self.direction = V()
         if not direction:
@@ -40,10 +40,14 @@ class covid_particle(emission):
                     covid.load += 10
 
 class vaccine(emission):
+    def __init__(self, parent, pos, distance, direction, colour, speed):
+        super().__init__(parent, pos, distance, direction, colour, speed)
+        self.collided = False
     def collide(self, covids):
         for covid in covids:
             if covid != self.parent:
                 if ((self.pos) - covid.parent.pos).magnitude() < 15:
+                    self.collided = True
                     covid.load -= 10000
 
 class covid():
