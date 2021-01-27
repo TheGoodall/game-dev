@@ -1,4 +1,5 @@
 import math
+import random
 from pygame.math import Vector2 as V
 from . import covid
 
@@ -21,7 +22,7 @@ class Entity(PhysicalObject):
         self.sprinting = False
         self.m_dir = V(0,0)
 
-        self.covid = covid.covid(self, 1000)
+        self.covid = covid.covid(self, 1000) if random.random() < 0.1 else covid.covid(self, 0)
         super().__init__(pos)
 
     def render(self, surface, font, cam_pos):
