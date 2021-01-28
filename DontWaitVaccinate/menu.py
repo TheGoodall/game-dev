@@ -84,9 +84,9 @@ class Text():
 
 # Difficulty options possible
 difficulty_option = {
-    "easy":     {"difficulty": "easy", "player_health": 100, "size": 100, "density": 10},
-    "medium":   {"difficulty": "medium", "player_health": 100, "size": 100, "density": 10},
-    "hard":     {"difficulty": "hard", "player_health": 100, "size": 100, "density": 10}
+    "easy":     {"difficulty": "First Wave", "r": 1},
+    "medium":   {"difficulty": "Second Wave", "r": 3},
+    "hard":     {"difficulty": "The U.K. Variant", "r": 15}
 }
 
 
@@ -97,8 +97,8 @@ class Difficulty_display(Text):
         super().__init__("Difficulty: ", x, y)
 
     def render(self, surface, font, difficulty) -> None:
-        if difficulty != self.currentDifficulty:
-            self.currentDifficulty = difficulty
+        if difficulty_option[difficulty]['difficulty'] != self.currentDifficulty:
+            self.currentDifficulty = difficulty_option[difficulty]['difficulty']
             self.change_text("Difficulty: {}".format(
                 self.currentDifficulty))
         super().render(surface, font)
@@ -106,21 +106,25 @@ class Difficulty_display(Text):
 class pause_screen(menu):
     """ Contains the implementation of menu specific to the main menu """
 
-    def __init__(self, game_instance) -> None:
+    def __init__(self, game_instance, won=False) -> None:
         self.game_instance = game_instance
         self.buttons = [
 
-            Button(int(640/2), int(480/2),
-                120, 40, (0, 150, 0), "Resume", (self.game_instance.unpause)),
             Button(int(640/2), int(480/2 + 50),
                    120, 40, (0, 150, 0), "Quit to Menu", self.game_instance.quit_to_menu),
             Button(int(640/2), int(480/2 + 100),
                    120, 40, (150, 0, 0), "Quit!", self.game_instance.quit)
 
         ]
+        if not won:
+            self.buttons.append(Button(int(640/2), int(480/2),
+                120, 40, (0, 150, 0), "Resume", (self.game_instance.unpause)))
         self.texts = [
-            Text("Don't Wait! Vaccinate!", 770, 245),
-            Text("Paused", 770, 345)
+            Text("Don't Wait! Vaccinate!", 250, 45),
+            Text("Paused", 270, 100)
+        ] if not won else  [
+            Text("Don't Wait! Vaccinate!", 250, 45),
+            Text("You Won! Covid has been eradicated!", 230, 100)
         ]
 
     def render(self, surface, font) -> None:
@@ -149,7 +153,7 @@ class home_screen(menu):
         self.buttons = [
 
             Button(int(640/2), int(480/2 - 100),
-                   120, 40, (0, 150, 0), "Start", self.game_instance.start_game, difficulty_option[self.difficulty]),
+                   120, 40, (0, 150, 0), "Start", self.game_instance.start_game),
 
             Button(int(640/2 - 200), int(480/2),
                    60, 20, (0, 150, 0), "Easier", self.alter_difficulty, False),
@@ -163,7 +167,7 @@ class home_screen(menu):
         self.texts = [
             Text("Don't Wait! Vaccinate!", 260, 50)
         ]
-        self.difficulty_display = Difficulty_display(850, 520)
+        self.difficulty_display = Difficulty_display(270, 240)
 
     def render(self, surface, font) -> None:
         """ Render the main menu """

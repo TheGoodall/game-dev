@@ -4,6 +4,7 @@ from DontWaitVaccinate.game_state import game_state
 
 from DontWaitVaccinate.menu import home_screen
 from DontWaitVaccinate.menu import pause_screen
+import DontWaitVaccinate.menu
 
 
 class game():
@@ -23,9 +24,9 @@ class game():
         self.paused = None
         self.menu = home_screen(self)
 
-    def start_game(self, difficulty) -> None:
+    def start_game(self) -> None:
         """ Start a new game and close the menu """
-        self.game_state = game_state(difficulty)
+        self.game_state = game_state(DontWaitVaccinate.menu.difficulty_option[self.menu.difficulty], self)
         self.menu = None
 
     def quit(self) -> None:

@@ -14,7 +14,7 @@ class PhysicalObject():
 
 
 class Entity(PhysicalObject):
-    def __init__(self, pos, sprites):
+    def __init__(self, pos, sprites, r):
         self.sprites = sprites
         self.sprite_state = 0
         self.sprite_dir = 1
@@ -22,7 +22,7 @@ class Entity(PhysicalObject):
         self.sprinting = False
         self.m_dir = V(0,0)
 
-        self.covid = covid.covid(self, 1000) if random.random() < 0.1 else covid.covid(self, 0)
+        self.covid = covid.covid(self, r, 1000) if random.random() < 0.3 else covid.covid(self, 0, r)
         super().__init__(pos)
 
     def render(self, surface, font, cam_pos):

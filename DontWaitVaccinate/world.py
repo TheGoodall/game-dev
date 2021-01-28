@@ -4,7 +4,7 @@ import pygame
 class World():
     """ Contains the current state of the world, e.g. buildings """
 
-    def __init__(self, size: int, density: int) -> None:
+    def __init__(self) -> None:
         self.ground_texture = pygame.image.load(
             "DontWaitVaccinate/images/grass.jpg")
         self.ground_texture = pygame.transform.scale(
