@@ -30,7 +30,6 @@ while game_instance.running:
     # Tick clock at 60fps
     clock.tick(FRAMERATE)
     time = clock.get_time()
-    print(1000.0/time)
 
     # Process events
     game_instance.loop(time)
